@@ -2,18 +2,15 @@
 
 #Step 1: Creates a temporary scratch directory to store all the intermediate files in
 
-inputFiles=("$@")
 tempMainDir=$(mktemp -d)
 
 #Step 2: Loops over the compressed tar files provided on the command line, 
 # extracting the contents of each file we were given
 
-for tarFile in "${inputFiles[@]}"
+for tarFile in "$@"
 do
 	#Step 2-1: Get the base name of each log files
-	#fileBaseName=$(echo "$tarFile" | perl -ne 's/(\w+)_.*/\1/')
-	fileBaseName="${logFile%_secure.*}"
-	fileBaseName=$(basename "$tarFile")
+	fileBaseName=$(basename "$tarFile" .tgz)
 
 	#Step 2-2: Make a directory under the tempDir by using its basename
 	tempFileBaseDir="$tempMainDir"/"$fileBaseName"
